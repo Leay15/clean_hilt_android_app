@@ -10,8 +10,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.siclo.com.databinding.ActivityMainBinding
+import com.siclo.usecases.ExampleUseCase
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var exampleUseCase: ExampleUseCase
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -29,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            val result = exampleUseCase.invoke()
+            Snackbar.make(view, "LoginModel ${result.email} ${result.userType}", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
     }
